@@ -108,6 +108,10 @@ typedef struct{
 
 typedef struct{
     uint unknown[4]; // i think here is where we can find 'lit' info
+	// unknown[0] went from 0xF09B0F00 to 0x32FC1900 after resting at first archive bonfire for the first time, also filler[278] 00->08 filler[279] 00-01
+	
+	// unknownsection[13] archive?
+
     byte UnknownData8b[38-20] <bgcolor=cLtYellow>;
     Bonfires bonfiresRestedAt<bgcolor=cLtGreen>;
     byte unknown2[214] <bgcolor=cLtYellow>;
@@ -186,8 +190,16 @@ typedef struct {
     FSeek(mark+131242);
 
     //0x56280 burg bonfire?
-    UnknownArea areadata[2578] <bgcolor=cLtYellow>; //Im getting indications that this is just garbage data?
+	UnknownArea areadataa[10]; // these are almost always zero filled?
+	UnknownArea areadatab<bgcolor=cGreen>; // here garbage data starts appearing? or is this valid data?
+	
+    UnknownArea areadata[2578-11] <bgcolor=cLtYellow>; // im now convinced this is garbage data
+	// it took two save files with just a few seconds diff
+	// this entire section was just shifted 36 bytes
+	// + i cant find any consistent pattern in this section, the entire section content moves wildly between saves
+	// + sometimes you can find random string data. I've found "LAME3.98 (beta)", "hkaAnimationContainer", "PROPERTY_MTL_UV_ID_STAGE15" and many others. None of them seem to have anything to do with a game save. I suspect the game just takes whatever random data was in the memory before the save loaded.
 
+	
     Checksum secondary; // this is the md5 checksum of all bytes in this save slot, excluding the header and the length fields
     // the secondary checksum isnt actually required to be correct to form a correct save file. The save file loads despite it being edited.
 
