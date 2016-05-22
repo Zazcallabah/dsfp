@@ -187,7 +187,7 @@ typedef struct {
     OnlineData online;
 
     // Here we have a dynamic length zero pad, skip to next part with numbers
-    FSeek(mark+131242);
+    FSeek(mark + 131242);
 
     //0x56280 burg bonfire?
 	UnknownArea areadataa[10]; // these are almost always zero filled?
