@@ -6,7 +6,7 @@
 
 param($file)
 
-$filepath = join-path -resolve ( $MyInvocation.MyCommand.Path | split-path ) $file
+$filepath = (resolve-path $file).ProviderPath
 $filebinary =  [System.IO.File]::ReadAllBytes( $filepath )
 
 function extr {
@@ -76,6 +76,7 @@ while($count -lt 10)
 
 if( $needswrite )
 {
-	[System.IO.File]::WriteAllBytes( "$filepath.fixd", $filebinary )
-	write-host "Saved corrected file as $filepath.fixd"
+	mv "$filepath" "$filepath.backup"
+	[System.IO.File]::WriteAllBytes( "$filepath", $filebinary )
+	write-host "Saved corrected file as $filepath"
 }
